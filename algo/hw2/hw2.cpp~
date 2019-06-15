@@ -1,0 +1,284 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdio>
+#include <ctime>
+#include <queue>
+#define SWAP(X,Y,T) (T=X, X=Y,Y=T)
+#define MIN(X,Y) ((X)<(Y)?(X):(Y))
+#define MAX(X,Y) ((X)>(Y)?(X):(Y))
+
+using namespace std;
+
+typedef struct{
+ 	int data;
+ 	int priority;
+}Hnode;
+
+typedef struct{
+	Hnode items[MAX+1];
+	int num;
+}Heap;
+
+
+void bubble(int* list, int j);
+void insertion(int* list, int n);
+//MERGE SORT
+void mergesort(int* list,int first, int last);
+void merge(int* list, int left, int mid, int right);
+
+//HEAP SORT
+void heap(int* list,int j);
+void Insert(Heap *pheap, int data, int priority);
+int  Delete(Heap *pheap);
+void Initheap(Heap *pheap);
+
+void quick(int* list,int left,int right);
+//RADIX SORT
+void radix(int* list,int j);
+
+int main(int argc, char*argv[])
+{
+    char * type = argv[1];
+	ifstream fin(argv[2]);
+	ofstream fout(argv[3]);
+
+	// input --> array
+	cout.setf(ios::fixed);
+	int length=0;
+	int i=0;
+	char c= *type;
+	cout.setf(ios::fixed);
+	clock_t start, end;
+	double  exe_time;
+
+	fin>>length; //read	length from the file
+
+	int v[length];//creat an array 
+
+	for(i=0;i<length;i++)
+		fin>>v[i];
+	
+	v[i]=EOF;
+	
+
+	// type --> sort
+	//B=BUBBLE, I=INSERTION, M=MERGE, H=HEAP, Q=QUICK, R=RADIX
+	switch(c)
+	{
+		case 'B':	
+			start=clock();
+			bubble(v, length);	
+			end=clock();
+			cout<<"Bubblesort for ";
+			break;
+		case 'I':
+			start=clock();
+			insertion(v, length);
+			end=clock();
+			cout<<"Insertionsort for ";
+			break;
+		case 'M':
+			start=clock();
+			merge(v,0,length-1);
+			end=clock();
+			cout<<"Mergesort for ";
+			break;
+		case 'H':
+			start=clock();
+			heap(v,length);
+			end=clock();
+			cout<<"Heapsort for ";
+			break;
+		case 'Q':
+			start=clock();
+			quick(v,0,length-1);
+			end=clock();
+			cout<<"Quicksort for ";
+			break;
+		case 'R':
+			start=clock();
+			radix(v,length);
+			end=clock();
+			cout<<"Radixsort for ";
+			break;
+		default:
+			break;
+	}
+
+	exe_time=(double)(end-start)/CLOCKS_PER_SEC;
+	cout.precision(6);
+	cout<<length<<" integers took " << exe_time <<" seconds."<<endl;
+
+
+	// output --> output file
+	fout<<length<<endl;
+	for(int i=0;i<length;i++)
+		fout<<v[i]<<" ";
+
+	fout<<endl;
+
+	return 0;
+}
+
+
+
+void bubble(int* list, int n)
+{
+	int length=n, temp;
+	
+	for(int i=length-1;i>0;i--) //starting from the back
+	{
+		for(int j=0;j<i;j++) //compare previous numbers
+		{
+			if(list[j]>list[j+1]) //swap if list[j] is bigger than list[j+1]
+				SWAP(list[j],list[j+1],temp);
+		}
+	}
+}
+
+
+void insertion(int* list, int n)
+{
+	int length=n,i,j,key,temp;
+
+	for(i=1;i<n;i++) //list[0] is considered as a sorted array, sorting starts from list[1]
+	{
+		key=list[i]; //list[i] is going to be compared with(0~ i-1) members
+		for(j=i-1;j>=0;j--)
+		{
+			if(list[j]>key) // if list[i-1] is bigger than list[i]
+				list[j+1]=list[j];//swap~~
+
+			else break;
+		}
+		list[j+1]=key;
+	}
+}
+
+
+void mergesort(int* list,int first, int last)
+{	
+	int length=last+1;
+
+	if(last-first<=5) insertion(list, first,last);
+	else
+	{
+		int mid=(last-first)/2;
+		mergesort(list,first, mid);
+		mergesort(list,mid,last);
+		merge(list, first, mid, last);
+	}
+
+}
+
+
+void merge(int* list, int left, int mid, int right)
+{
+	int temp[100000];
+	int first=left, second=mid+1, i=left;
+
+	//mid is located between left and right
+	while(first<=mid&&second<=right)
+	{
+		if(list[first]<=list[second]) //if an element is smaller than mid, add it to the first part of temp
+			temp[i++]=list[first++];
+		else 
+			temp[i++]=list[second++]; //if an element is greater than mid, add it to the second part of temp
+	}
+
+	if(first>mid) //first part of array is done
+	{
+		for(int j=second;j<=right;j++) //add the rest of part to temp
+			temp[i++]=list[j];
+	}
+
+	else //second part of array  is done
+	{
+		for(int j=first;j<=midlj++) //add the rest of first part to temp
+			temp[i++]=list[j];
+	}
+	
+	//copy temp to original array
+	for(int j=left;j<=right;j++) 
+		list[j]=temp[j];
+}
+
+void heap(int* list,int j)
+{
+	int length=j;
+	Heap heap;
+	Initheap(&heap);
+
+	for(int i=0;i<n;i++)
+		Insert(&heap, a[i], a[i]);
+
+	for(int i=n-1;i>=0;i--)
+		a[i]=Delete(&heap);
+}
+void Insert(Heap *pheap, int data, int priority)
+{
+
+
+}
+int  Delete(Heap *pheap)
+{
+
+}
+void Initheap(Heap *pheap)
+{
+}
+
+void quick(int* list,int left,int right)
+{
+	int L=left, R=right, temp, length=right+1;
+	int pivot= list[(L+R)/2]; //pivot is the middle point of left and right
+
+	
+	while(L<=R) //L and R are index(not value)
+	{
+		while(list[L]<pivot) L++; 
+		while(list[R]>pivot) R--;
+
+		if(L<=R)
+		{
+			if(L!=R) //L is less than R -> Swap
+				SWAP(list[L], list[R], temp);
+			
+			L++; R--; //move the index
+						
+		}		
+	}
+		
+	if(left<R)
+		quick(list, left, R);
+	if(L<right)
+		quick(list, L, right);
+
+}
+
+
+void radix(int* list,int j)
+{	
+	int length=j, max=0, modulo=-1, max_length=1;
+	int i[10][length]={-1};
+	queue<int> sorted[j];
+
+	for(int i=1;i<length;i++) //find max
+		max=MAX(list[i-1],list[i]);
+
+	do
+	{
+		max=max/10;
+		max_length++;
+	}while(max>10); //length of max
+
+	int i, a[j], m=0, exp=1;
+	for(i=0;i<n;i++)
+		if(a[i]>m) m=a[i];
+	
+
+
+
+
+}

@@ -1,0 +1,32 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdio>
+using namespace std;
+
+int main(int argc, char*argv[])
+{
+	int column=0, row=0;
+	int **table=null;
+	int **visited=null;
+	cout.setf(ios::fixed);
+	ifstream fin(argv[1]);
+	ofstream fout(argv[2]);
+
+	fin>>column;
+	fin>>row;
+
+	table=new[column][row];
+	visited=new[column-1][row-1];
+
+	for(int i=0;i<column;i++){
+		for(int j=0;j<row;j++)
+			fin>>new[i][j];
+	}
+
+
+
+
+	delete(table);
+
+}
