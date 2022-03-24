@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Storage</title>
+</head>
+<body>
+    <div>
+        <!-- Specify user's name here -->
+        <h1 id="user-server"></h1>
+
+        <form>
+            <input type="file" name="submitted_file">
+            <input type="submit" name="submit">
+        </form>
+
+        <!-- Show file list here -->
+        <ul>
+            <li>file1</li>
+            <li>file2</li>
+            <li>file3</li>
+        </ul>
+    </div>
+</body>
+<script>
+    let userServer = document.getElementById('user-server')
+    user_cookie = document.cookie.split(';')[0]
+    user = user_cookie.split('=')[1]
+
+    userServer.innerText += user + "'s Storage Server"
+
+</script>
+</html>
+            

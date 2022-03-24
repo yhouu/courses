@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Specify user's name here -->
+    <title>Welcome user1</title>
+</head>
+<body>
+    <!-- Specify user's name here -->
+    <p id="hello"></p>
+
+    <!-- Change cookie time here -->
+    <p id="seconds"></p>
+</body>
+<script>
+    let helloUser = document.getElementById('hello')
+    let seconds = document.getElementById('seconds')
+    timestamp = new Date().getTime();
+    
+    user_cookie = document.cookie.split(';')[0]
+    user = user_cookie.split('=')[1]
+
+    expiry_cookie = document.cookie.split(';')[1]
+    expire_at = Number(expiry_cookie.split('=')[1])
+    
+    time_left = Math.ceil(expire_at - timestamp/1000)
+    helloUser.innerText += 'Hello ' + user
+    seconds.innerText += time_left + " seconds left until your cookie expires."
+</script>
+</html>
+        
