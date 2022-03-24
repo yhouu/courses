@@ -56,9 +56,13 @@ while True:
             )
             client.send(str.encode("\r\n"))
     elif page == "/storage" or page == "/storage.html":
-        if request_method == "GET":
-            filename = "./storage.html"
-            read_html(filename, client)
+        if "Cookie:" in data_temp:
+            if request_method == "GET":
+                filename = "./storage.html"
+                read_html(filename, client)
+        else:
+            client.send(str.encode("HTTP/1.1 302 redirect\n"))
+            client.send(str.encode("Location: {}\n".format("./index.html")))
     elif page == "/cookie" or page == "/cookie.html":
         if "Cookie:" in data_temp:
             filename = "./cookie.html"
